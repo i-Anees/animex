@@ -1,0 +1,217 @@
+/* ============================================================================
+   ANIMEX WEAR — Foundations: Color + Type
+   Luxury monochrome anime-streetwear. Sharp, spacious, type-led.
+   Import this file first; everything else builds on these tokens.
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  /* ---------------------------------------------------------------------------
+     TYPEFACES
+     Archivo  — primary grotesque. Tight, confident, full weight range.
+     Space Mono — technical accent: overlines, SKUs, prices labels, drop tags.
+     System stack fallbacks keep metrics close if webfonts fail.
+  --------------------------------------------------------------------------- */
+  --font-display: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body:    'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono:    'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* ---------------------------------------------------------------------------
+     NEUTRAL SCALE  (the entire brand palette lives here — monochrome by design)
+  --------------------------------------------------------------------------- */
+  --ink-000: #FFFFFF;  /* primary background / luxury contrast on dark */
+  --ink-050: #F5F5F5;  /* secondary surface — the brand "light grey" */
+  --ink-100: #EDEDED;  /* hover surface / subtle fills */
+  --ink-150: #E2E2E2;  /* hairline borders (default) */
+  --ink-200: #D4D4D4;  /* strong borders / dividers on grey */
+  --ink-300: #BFBFBF;  /* disabled text on light */
+  --ink-400: #9A9A9A;  /* muted captions */
+  --ink-500: #6E6E6E;  /* secondary text */
+  --ink-600: #4A4A4A;  /* body text on light (soft) */
+  --ink-700: #2D2D2D;  /* brand "dark grey" — accent surfaces, strong text */
+  --ink-900: #0A0A0A;  /* near-black for type (softer than pure) */
+  --ink-999: #000000;  /* luxury contrast — buttons, hero, footer */
+
+  /* ---------------------------------------------------------------------------
+     SEMANTIC SURFACES + TEXT  (light theme — the storefront default)
+  --------------------------------------------------------------------------- */
+  --bg-1: var(--ink-000);   /* page */
+  --bg-2: var(--ink-050);   /* sections / cards */
+  --bg-3: var(--ink-100);   /* nested surfaces / hover */
+  --bg-inverse: var(--ink-999); /* dark sections, footer, hero overlays */
+
+  --fg-1: var(--ink-900);   /* primary text */
+  --fg-2: var(--ink-600);   /* body / secondary */
+  --fg-3: var(--ink-500);   /* tertiary / meta */
+  --fg-4: var(--ink-400);   /* muted / captions */
+  --fg-on-inverse: var(--ink-000);
+  --fg-on-inverse-2: rgba(255,255,255,0.66);
+
+  --border-1: var(--ink-150); /* default hairline */
+  --border-2: var(--ink-200); /* stronger divider */
+  --border-strong: var(--ink-900); /* editorial keyline */
+  --border-on-inverse: rgba(255,255,255,0.16);
+
+  /* ---------------------------------------------------------------------------
+     FUNCTIONAL COLOR  (used sparingly — never decorative.
+     Brand stays monochrome; these are for state only: validation, stock, sale.)
+  --------------------------------------------------------------------------- */
+  --fn-sale:    #B11919;  /* sale price + drop urgency only */
+  --fn-success: #1C7C4A;  /* in-stock / confirmed */
+  --fn-error:   #B11919;  /* form errors */
+  --fn-info:    var(--ink-700);
+
+  /* ---------------------------------------------------------------------------
+     TYPE SCALE  (clamp() = fluid from mobile→desktop. Spacious by default.)
+     Tracking: display is tight & negative; mono labels are wide & positive.
+  --------------------------------------------------------------------------- */
+  --fs-display:  clamp(3.25rem, 1.5rem + 7.5vw, 8.5rem); /* @kind other */
+  --fs-h1:       clamp(2.25rem, 1.2rem + 4.4vw, 4.5rem); /* @kind other */
+  --fs-h2:       clamp(1.75rem, 1.1rem + 2.6vw, 3rem);   /* @kind other */
+  --fs-h3:       clamp(1.375rem, 1.05rem + 1.2vw, 1.875rem); /* @kind other */
+  --fs-h4:       clamp(1.125rem, 1rem + 0.5vw, 1.375rem); /* @kind other */
+  --fs-body-lg:  1.125rem;   /* @kind font */
+  --fs-body:     1rem;       /* @kind font */
+  --fs-body-sm:  0.875rem;   /* @kind font */
+  --fs-caption:  0.8125rem;  /* @kind font */
+  --fs-overline: 0.6875rem;  /* @kind font */
+
+  --lh-tight: 0.98; /* @kind font */
+  --lh-snug:  1.12; /* @kind font */
+  --lh-text:  1.6;  /* @kind font */
+  --lh-flat:  1;    /* @kind font */
+
+  --tr-display: -0.03em; /* @kind font */
+  --tr-head:    -0.015em; /* @kind font */
+  --tr-body:    0;        /* @kind font */
+  --tr-over:    0.22em;   /* @kind font */
+  --tr-button:  0.06em;   /* @kind font */
+
+  /* ---------------------------------------------------------------------------
+     SPACING  (4px base — generous rhythm for luxury whitespace)
+  --------------------------------------------------------------------------- */
+  --sp-1: 4px;   --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
+  --sp-5: 24px;  --sp-6: 32px;  --sp-7: 48px;  --sp-8: 64px;
+  --sp-9: 96px;  --sp-10: 128px; --sp-11: 160px; --sp-12: 200px;
+  --section-y: clamp(64px, 9vw, 160px); /* @kind spacing */
+  --gutter: clamp(20px, 5vw, 80px);      /* @kind spacing */
+  --maxw: 1600px;                         /* @kind spacing */
+
+  /* ---------------------------------------------------------------------------
+     RADII  (sharp by intent — fashion editorial. Rounding is the exception.)
+  --------------------------------------------------------------------------- */
+  --r-0: 0px;     /* default: cards, buttons, inputs, images — square */
+  --r-1: 2px;     /* barely-there softening */
+  --r-2: 4px;     /* small chips / tooltips */
+  --r-pill: 999px;/* circular icon buttons, qty steppers */
+
+  /* ---------------------------------------------------------------------------
+     ELEVATION  (very soft, diffuse — luxury never shouts. Borders do most work.)
+  --------------------------------------------------------------------------- */
+  --sh-0: none; /* @kind shadow */
+  --sh-1: 0 1px 2px rgba(10,10,10,0.04);
+  --sh-2: 0 4px 16px rgba(10,10,10,0.06);
+  --sh-3: 0 12px 40px rgba(10,10,10,0.10);
+  --sh-4: 0 24px 80px rgba(10,10,10,0.14);  /* drawers, modals */
+
+  /* ---------------------------------------------------------------------------
+     MOTION  (premium = restrained + smooth. Long eases, no bounce.)
+  --------------------------------------------------------------------------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);    /* @kind other */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+  --dur-fast: 180ms;   /* @kind other */
+  --dur: 320ms;        /* @kind other */
+  --dur-slow: 600ms;   /* @kind other */
+  --dur-reveal: 900ms; /* @kind other */
+}
+
+/* ============================================================================
+   SEMANTIC ELEMENT STYLES  (apply directly to tags / utility classes)
+   ============================================================================ */
+
+.ax-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-display);
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+.ax-h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-head);
+  color: var(--fg-1);
+}
+.ax-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-head);
+  color: var(--fg-1);
+}
+.ax-h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: 1.2;
+  letter-spacing: var(--tr-head);
+  color: var(--fg-1);
+}
+.ax-h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h4);
+  line-height: 1.3;
+  color: var(--fg-1);
+}
+.ax-body-lg {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-text);
+  color: var(--fg-2);
+}
+.ax-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: var(--lh-text);
+  color: var(--fg-2);
+}
+.ax-body-sm {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-body-sm);
+  line-height: 1.55;
+  color: var(--fg-2);
+}
+.ax-caption {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-caption);
+  line-height: 1.5;
+  color: var(--fg-3);
+}
+/* The signature streetwear "spec label" — mono, uppercase, blown-out tracking */
+.ax-overline {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--fs-overline);
+  line-height: 1;
+  letter-spacing: var(--tr-over);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.ax-mono {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--fs-body-sm);
+  letter-spacing: 0.02em;
+  color: var(--fg-2);
+}
