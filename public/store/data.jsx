@@ -21,7 +21,7 @@ const PHOTOS = [
 function U(id, w){ return 'https://images.unsplash.com/photo-' + id + '?w=' + (w||800) + '&q=75&auto=format&fit=crop'; }
 function photo(i, w){ return U(PHOTOS[((i % PHOTOS.length) + PHOTOS.length) % PHOTOS.length], w); }
 
-function money(n){ return '$' + n; }
+function money(n){ return 'AED ' + n; }
 
 const __D = window.__ANIMEX_DATA__ || { collections: [], categories: [], products: [] };
 const COLLECTIONS = __D.collections;

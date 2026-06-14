@@ -44,7 +44,7 @@ class BusinessStats extends StatsOverviewWidget
         })->all();
 
         return [
-            Stat::make('Total Revenue', '$' . number_format($revenue, 0))
+            Stat::make('Total Revenue', 'AED ' . number_format($revenue, 0))
                 ->description(($revDelta >= 0 ? '+' : '') . $revDelta . '% vs last month')
                 ->descriptionIcon($revDelta >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($revDelta >= 0 ? 'success' : 'danger')
@@ -60,7 +60,7 @@ class BusinessStats extends StatsOverviewWidget
                 ->descriptionIcon('heroicon-m-users')
                 ->color('gray'),
 
-            Stat::make('Avg Order Value', '$' . number_format($aov, 0))
+            Stat::make('Avg Order Value', 'AED ' . number_format($aov, 0))
                 ->description('Across paid orders')
                 ->descriptionIcon('heroicon-m-banknotes')
                 ->color('success'),

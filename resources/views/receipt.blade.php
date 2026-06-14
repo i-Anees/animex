@@ -150,19 +150,19 @@
           <td>{{ $item->name }}<br><span class="sku">{{ $item->sku }}</span></td>
           <td>{{ $item->size ?? '—' }}</td>
           <td class="r">{{ $item->qty }}</td>
-          <td class="r">${{ number_format($item->price, 2) }}</td>
-          <td class="r">${{ number_format($item->line_total, 2) }}</td>
+          <td class="r">AED {{ number_format($item->price, 2) }}</td>
+          <td class="r">AED {{ number_format($item->line_total, 2) }}</td>
         </tr>
         @endforeach
       </tbody>
     </table>
 
     <div class="totals">
-      <div class="row"><span>Subtotal</span><span>${{ number_format($order->subtotal, 2) }}</span></div>
-      @if($order->discount > 0)<div class="row"><span>Discount</span><span>−${{ number_format($order->discount, 2) }}</span></div>@endif
-      <div class="row"><span>Shipping</span><span>{{ $order->shipping > 0 ? '$'.number_format($order->shipping, 2) : 'FREE' }}</span></div>
-      <div class="row"><span>Tax</span><span>${{ number_format($order->tax, 2) }}</span></div>
-      <div class="row grand"><span>Total</span><span>${{ number_format($order->total, 2) }}</span></div>
+      <div class="row"><span>Subtotal</span><span>AED {{ number_format($order->subtotal, 2) }}</span></div>
+      @if($order->discount > 0)<div class="row"><span>Discount</span><span>−AED {{ number_format($order->discount, 2) }}</span></div>@endif
+      <div class="row"><span>Shipping</span><span>{{ $order->shipping > 0 ? 'AED '.number_format($order->shipping, 2) : 'FREE' }}</span></div>
+      <div class="row"><span>Tax</span><span>AED {{ number_format($order->tax, 2) }}</span></div>
+      <div class="row grand"><span>Total</span><span>AED {{ number_format($order->total, 2) }}</span></div>
     </div>
 
     <div class="foot">

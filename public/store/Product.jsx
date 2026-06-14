@@ -104,7 +104,7 @@ function Product({ product, go, onAdd, onBuy, handlers }) {
           )}
 
           <div className="pdp__perks">
-            <div className="pdp__perk"><i className="bi bi-truck"></i> Free express shipping over $200</div>
+            <div className="pdp__perk"><i className="bi bi-truck"></i> Standard shipping AED 20 · 2–3 business days</div>
             <div className="pdp__perk"><i className="bi bi-arrow-repeat"></i> 30-day returns on unworn items</div>
             <div className="pdp__perk"><i className="bi bi-patch-check"></i> Numbered edition of {p.edition} · {p.stock === 0 ? 'Sold out' : (p.stock <= 4 ? 'Low stock — ' + p.stock + ' left' : 'In stock')}</div>
           </div>
@@ -112,7 +112,7 @@ function Product({ product, go, onAdd, onBuy, handlers }) {
           <div style={{ marginTop:30 }}>
             <Accordion items={[
               { t: 'Details & Fabric', b: '320GSM brushed-back heavyweight cotton. Boxy, dropped-shoulder fit. Screen-printed graphics with tonal embroidery and a numbered woven label.' },
-              { t: 'Shipping & Returns', b: 'Free express shipping on orders over $200. Dispatched within 48 hours. 30-day returns on unworn items with tags attached.' },
+              { t: 'Shipping & Returns', b: 'Standard shipping is AED 20 (2–3 business days), dispatched within 48 hours. 30-day returns on unworn items with tags attached.' },
               { t: 'Sizing', b: 'Garment runs true to size with an oversized cut. Model is 185cm wearing size L. For a fitted look, size down.' },
             ]} />
           </div>

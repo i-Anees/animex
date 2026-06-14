@@ -10,7 +10,7 @@ function FilterGroup({ title, children }) {
   );
 }
 
-function Shop({ go, handlers }) {
+function Shop({ go, handlers, preset }) {
   useReveal();
   const [cats, setCats] = useState([]);
   const [colls, setColls] = useState([]);
@@ -18,6 +18,15 @@ function Shop({ go, handlers }) {
   const [maxPrice, setMaxPrice] = useState(240);
   const [sort, setSort] = useState('featured');
   const [density, setDensity] = useState(4);
+  const [flag, setFlag] = useState(null);   // new | best | sale | limited (from nav/hero links)
+
+  // Apply a preset filter when arriving from a hero/nav/footer link.
+  useEffect(() => {
+    setCats(preset && preset.category ? [preset.category] : []);
+    setColls(preset && preset.collection ? [preset.collection] : []);
+    setFlag(preset && preset.flag ? preset.flag : null);
+    setSort(preset && preset.flag === 'new' ? 'new' : 'featured');
+  }, [preset]);
 
   const toggle = (arr, set, v) => set(arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v]);
 
@@ -25,7 +34,12 @@ function Shop({ go, handlers }) {
     (cats.length === 0 || cats.includes(p.category)) &&
     (colls.length === 0 || colls.includes(p.collection)) &&
     (sizes.length === 0 || sizes.some(s => p.sizes.includes(s) && !p.soldOutSizes.includes(s))) &&
-    (p.sale || p.price) <= maxPrice
+    (p.sale || p.price) <= maxPrice &&
+    (!flag
+      || (flag === 'new' && p.isNew)
+      || (flag === 'best' && p.isBest)
+      || (flag === 'sale' && p.sale)
+      || (flag === 'limited' && p.isLimited))
   );
   if (sort === 'price-asc') list = [...list].sort((a, b) => (a.sale||a.price) - (b.sale||b.price));
   if (sort === 'price-desc') list = [...list].sort((a, b) => (b.sale||b.price) - (a.sale||a.price));
@@ -71,7 +85,7 @@ function Shop({ go, handlers }) {
             <input type="range" min="78" max="240" step="2" value={maxPrice}
               onChange={(e) => setMaxPrice(+e.target.value)} style={{ width:'100%', accentColor:'#000' }} />
             <div className="mono" style={{ display:'flex', justifyContent:'space-between', fontSize:11, color:'var(--fg-4)', marginTop:8 }}>
-              <span>$78</span><span>$240</span>
+              <span>AED 78</span><span>AED 240</span>
             </div>
           </FilterGroup>
         </aside>

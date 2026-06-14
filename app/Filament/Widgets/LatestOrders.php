@@ -25,7 +25,7 @@ class LatestOrders extends TableWidget
             ->columns([
                 TextColumn::make('number')->label('Order')->weight('bold')->searchable(),
                 TextColumn::make('customer_name')->label('Customer')->searchable(),
-                TextColumn::make('total')->money('usd')->sortable(),
+                TextColumn::make('total')->money('AED')->sortable(),
                 TextColumn::make('payment_status')->badge()->color(fn (string $state): string => match ($state) {
                     'paid' => 'success', 'pending' => 'warning', 'refunded' => 'danger', default => 'gray',
                 }),

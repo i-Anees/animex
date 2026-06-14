@@ -59,8 +59,9 @@ function App() {
   const [auth, setAuth] = useState(false);
   const [toast, setToast] = useState(null);
   const [orderNo, setOrderNo] = useState(null);
+  const [shopPreset, setShopPreset] = useState(null);   // {collection|category|flag} for filtered Shop links
 
-  const go = (v) => { setView(v); window.scrollTo(0, 0); };
+  const go = (v, preset = null) => { setShopPreset(preset); setView(v); window.scrollTo(0, 0); };
   const openProduct = (p) => { setCurrent(p); setView('product'); window.scrollTo(0, 0); };
 
   const flash = (msg) => { setToast(msg); clearTimeout(window.__t); window.__t = setTimeout(() => setToast(null), 2200); };
@@ -106,7 +107,7 @@ function App() {
 
       <main>
         {view === 'home' && <Home go={go} handlers={handlers} />}
-        {view === 'shop' && <Shop go={go} handlers={handlers} />}
+        {view === 'shop' && <Shop go={go} handlers={handlers} preset={shopPreset} />}
         {view === 'product' && current && <Product product={current} go={go}
           onAdd={(p, o) => addToCart(p, o)} onBuy={() => { setDrawer(false); go('checkout'); }}
           handlers={handlers} />}

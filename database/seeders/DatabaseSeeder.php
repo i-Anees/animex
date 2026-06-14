@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             CatalogSeeder::class,
             CommerceSeeder::class,
             HeroSlideSeeder::class,
+            VoucherSeeder::class,
         ]);
 
         // Render the anime graphic-tee SVG artwork for the seeded catalog.

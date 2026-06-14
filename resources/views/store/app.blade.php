@@ -16,6 +16,7 @@
   window.__ANIMEX_DATA__ = @json($data);
   window.__CSRF__ = "{{ csrf_token() }}";
   window.__ORDER_URL__ = "{{ route('orders.place') }}";
+  window.__VOUCHER_URL__ = "{{ route('voucher.apply') }}";
 </script>
 <script defer src="{{ asset('store/dist/data.js') }}"></script>
 <script defer src="{{ asset('store/dist/ui.js') }}"></script>

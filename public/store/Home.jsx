@@ -34,8 +34,8 @@ function Hero({ go }) {
         <h1 className="hero__title">{s.title}</h1>
         <p className="hero__sub">{s.sub}</p>
         <div className="hero__cta">
-          <button className="btn btn--energy btn--lg" onClick={() => go('shop')}>{s.cta || 'Shop the Drop'}</button>
-          <button className="btn btn--ghost btn--lg" style={{ color:'#fff', borderColor:'rgba(255,255,255,.4)' }} onClick={() => go('shop')}>View Lookbook</button>
+          <button className="btn btn--energy btn--lg" onClick={() => go('shop', { flag: 'new' })}>New Arrivals</button>
+          <button className="btn btn--ghost btn--lg" style={{ color:'#fff', borderColor:'rgba(255,255,255,.4)' }} onClick={() => go('shop', { flag: 'best' })}>Best Sellers</button>
         </div>
       </div>
     </section>
@@ -43,7 +43,7 @@ function Hero({ go }) {
 }
 
 function Marquee() {
-  const items = ['Free Shipping Over $200','New Drop Every Friday','Numbered Limited Editions','320GSM Heavyweight','Worldwide Delivery','30-Day Returns'];
+  const items = ['Standard Shipping AED 20','New Drop Every Friday','Numbered Limited Editions','320GSM Heavyweight','UAE-Wide Delivery','30-Day Returns'];
   const loop = [...items, ...items];
   return (
     <div className="marquee">
@@ -66,7 +66,7 @@ function Collections({ go }) {
       </div>
       <div className="coll-grid">
         {COLLECTIONS.map(c => (
-          <div key={c.id} className="coll" style={{ background: c.tone, '--accent': c.accent }} onClick={() => go('shop')}>
+          <div key={c.id} className="coll" style={{ background: c.tone, '--accent': c.accent }} onClick={() => go('shop', { collection: c.id })}>
             <img className="coll__img" src={U(c.img, 700)} alt="" onError={(e) => { e.target.style.display='none'; }}
               style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', filter:'saturate(1.1) contrast(1.05)', opacity:.86 }} />
             <div className="coll__glow"></div>
@@ -83,7 +83,7 @@ function Collections({ go }) {
   );
 }
 
-function ProductRow({ title, over, products, go, cta, ...handlers }) {
+function ProductRow({ title, over, products, go, cta, preset, ...handlers }) {
   return (
     <section className="section--tight wrap reveal">
       <div className="sec-head">
@@ -91,7 +91,7 @@ function ProductRow({ title, over, products, go, cta, ...handlers }) {
           <Overline>{over}</Overline>
           <h2>{title}</h2>
         </div>
-        <button className="btn-link" onClick={() => go('shop')}>{cta || 'View all'} <i className="bi bi-arrow-right"></i></button>
+        <button className="btn-link" onClick={() => go('shop', preset || null)}>{cta || 'View all'} <i className="bi bi-arrow-right"></i></button>
       </div>
       <div className="pgrid">
         {products.map(p => <ProductCard key={p.id} p={p} {...handlers} />)}
@@ -124,7 +124,7 @@ function FlashSale({ go }) {
             ))}
           </div>
         </div>
-        <button className="btn" onClick={() => go('shop')}>Shop Sale</button>
+        <button className="btn" onClick={() => go('shop', { flag: 'sale' })}>Shop Sale</button>
       </div>
     </section>
   );
@@ -208,10 +208,10 @@ function Home({ go, handlers }) {
       <Collections go={go} />
       <ProductRow over="Curated" title="Featured Products" products={featured} go={go} {...handlers} />
       <FlashSale go={go} />
-      <ProductRow over="Just Landed" title="New Arrivals" products={arrivals.length ? arrivals : featured.slice(0,4)} go={go} cta="Shop new" {...handlers} />
+      <ProductRow over="Just Landed" title="New Arrivals" products={arrivals.length ? arrivals : featured.slice(0,4)} go={go} cta="Shop new" preset={{ flag: 'new' }} {...handlers} />
       <FeaturedBanner go={go} />
-      <ProductRow over="Most Wanted" title="Best Sellers" products={best.length ? best : featured.slice(4,8)} go={go} cta="Shop best" {...handlers} />
-      <ProductRow over="Last Chance" title="Limited Edition Drops" products={limited} go={go} cta="Shop sale" {...handlers} />
+      <ProductRow over="Most Wanted" title="Best Sellers" products={best.length ? best : featured.slice(4,8)} go={go} cta="Shop best" preset={{ flag: 'best' }} {...handlers} />
+      <ProductRow over="Last Chance" title="Limited Edition Drops" products={limited} go={go} cta="Shop sale" preset={{ flag: 'sale' }} {...handlers} />
       <Testimonials />
       <Newsletter />
     </div>

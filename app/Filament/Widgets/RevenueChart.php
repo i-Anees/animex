@@ -32,7 +32,7 @@ class RevenueChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Revenue ($)',
+                    'label' => 'Revenue (AED)',
                     'data' => $values,
                     'borderColor' => '#000000',
                     'backgroundColor' => 'rgba(0,0,0,0.06)',

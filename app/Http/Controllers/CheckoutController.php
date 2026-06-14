@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Voucher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class CheckoutController extends Controller
 {
-    private const SHIP_COSTS = ['std' => 0, 'exp' => 12, 'next' => 22];
+    // Single standard shipping method: AED 20, 2–3 business days.
+    private const SHIPPING_FLAT = 20;
+    private const TAX_RATE = 0.08;
 
     /** Persist a real order placed from the storefront SPA. */
     public function api(Request $request): JsonResponse
@@ -22,9 +26,8 @@ class CheckoutController extends Controller
             'last_name' => ['required', 'string', 'max:80'],
             'address' => ['required', 'string', 'max:200'],
             'city' => ['required', 'string', 'max:80'],
-            'postcode' => ['required', 'string', 'max:20'],
+            'postcode' => ['nullable', 'string', 'max:20'],   // postcode is optional
             'country' => ['required', 'string', 'max:80'],
-            'ship' => ['nullable', 'string', 'in:std,exp,next'],
             'coupon' => ['nullable', 'string', 'max:40'],
             'items' => ['required', 'array', 'min:1'],
             'items.*.id' => ['required', 'integer', 'exists:products,id'],
@@ -41,15 +44,35 @@ class CheckoutController extends Controller
             $lines = [];
             foreach ($data['items'] as $it) {
                 $p = $products[$it['id']];
+                if ($p->stock < $it['qty']) {
+                    throw ValidationException::withMessages([
+                        'items' => $p->title . ' only has ' . $p->stock . ' left in stock.',
+                    ]);
+                }
                 $price = (float) ($p->sale_price ?? $p->price);
                 $lineTotal = round($price * $it['qty'], 2);
                 $subtotal += $lineTotal;
                 $lines[] = [$p, $it, $price, $lineTotal];
             }
 
-            $discount = ! empty($data['coupon']) ? round($subtotal * 0.10, 2) : 0;
-            $shipping = $subtotal > 200 ? 0 : (self::SHIP_COSTS[$data['ship'] ?? 'exp'] ?? 12);
-            $tax = round(($subtotal - $discount) * 0.08, 2);
+            // Apply voucher (re-validated server-side so a tampered/expired code can't slip through)
+            $discount = 0;
+            $voucherCode = null;
+            if (! empty($data['coupon'])) {
+                $voucher = Voucher::whereRaw('UPPER(code) = ?', [strtoupper(trim($data['coupon']))])
+                    ->lockForUpdate()->first();
+                if (! $voucher || $voucher->rejectionReason($subtotal)) {
+                    throw ValidationException::withMessages([
+                        'coupon' => $voucher ? $voucher->rejectionReason($subtotal) : 'Invalid voucher code.',
+                    ]);
+                }
+                $discount = $voucher->discountFor($subtotal);
+                $voucherCode = $voucher->code;
+                $voucher->increment('redeemed_count');
+            }
+
+            $shipping = self::SHIPPING_FLAT;
+            $tax = round(($subtotal - $discount) * self::TAX_RATE, 2);
             $total = round($subtotal - $discount + $shipping + $tax, 2);
             $name = trim($data['first_name'] . ' ' . $data['last_name']);
 
@@ -70,7 +93,7 @@ class CheckoutController extends Controller
                 'tax' => $tax,
                 'shipping' => $shipping,
                 'total' => $total,
-                'coupon' => $data['coupon'] ?? null,
+                'coupon' => $voucherCode,
                 'city' => $data['city'],
                 'shipping_address' => [
                     'address' => $data['address'],
